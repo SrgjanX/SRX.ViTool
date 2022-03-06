@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <Authors>Srgjan Ristovski</Authors>
+    <Copyright>Copyright (c) Srgjan Ristovski 2022</Copyright>
+    <PackageProjectUrl>http://srgjanx.net</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SrgjanX/SRX.ViTool</RepositoryUrl>
+  </PropertyGroup>
+
+</Project>

@@ -43,7 +43,6 @@ namespace SRX.ViTool
                         Console.Write(fi.Name + ", ");
                     }
                 }
-                //Console.WriteLine();
                 filesProcessedCount = files.Length;
             }
             else

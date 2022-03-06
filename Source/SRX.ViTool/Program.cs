@@ -7,15 +7,17 @@ namespace SRX.ViTool
 {
     internal class Program
     {
-        static void Main(string[] args)
+        private static string DefaultViberDirectory => $"C:\\Users\\{Environment.UserName}\\Documents\\ViberDownloads";
+
+        private static void Main(string[] args)
         {
             Console.WriteLine("SRX Viber Organizer started!");
             Console.Write("-- -- -- -- --\n");
-            //Get Viber directory from arguments if specified, else using Viber directory class.
+            //Get Viber directory from arguments if specified, else uses default Viber directory.
             OrganizerArgs orgArgs = new OrganizerArgs(args);
             string viberDirectory = (!string.IsNullOrEmpty(orgArgs.ViberDirectory))
                 ? orgArgs.ViberDirectory
-                : new ViberDirectory().Get;
+                : DefaultViberDirectory;
             //If the specified Viber directory does not exists, ask the user to enter it until he gives valid directory.
             while (!Directory.Exists(viberDirectory))
             {
@@ -40,9 +42,12 @@ namespace SRX.ViTool
             {
                 Console.WriteLine($"Error occurred!\r\n{ex.Message}");
             }
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("\n\n-- -- -- -- --");
-            Console.ReadKey();
+            finally
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("\n\n-- -- -- -- --");
+                Console.ReadKey();
+            }
         }
     }
 }

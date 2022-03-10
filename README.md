@@ -12,3 +12,4 @@ Simple .NET 5 C# console that organizes the annoying Viber downloads folder wher
 
 - **-dateprefix** Sets date prefix to the file name (ex: test.jpg will be renamed to 21_01_2022_test.jpg)
 - **-viberdir C:\ViberDownloads** It will use this directory.
+- **-useCurrentDir** It will use the directory where the .exe is located.

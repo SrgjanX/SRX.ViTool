@@ -2,6 +2,7 @@
 
 using System;
 using System.IO;
+using SRX.ViTool.Utils;
 
 namespace SRX.ViTool
 {
@@ -11,13 +12,11 @@ namespace SRX.ViTool
 
         private static void Main(string[] args)
         {
-            Console.WriteLine("SRX Viber Organizer started!");
+            Console.WriteLine("ViTool started!");
             Console.Write("-- -- -- -- --\n");
             //Get Viber directory from arguments if specified, else uses default Viber directory.
-            OrganizerArgs orgArgs = new OrganizerArgs(args);
-            string viberDirectory = (!string.IsNullOrEmpty(orgArgs.ViberDirectory))
-                ? orgArgs.ViberDirectory
-                : DefaultViberDirectory;
+            IOrganizerArgs orgArgs = Factory.GetOrganizerArgs(args);
+            string viberDirectory = GetViberDirectory(orgArgs);
             //If the specified Viber directory does not exists, ask the user to enter it until he gives valid directory.
             while (!Directory.Exists(viberDirectory))
             {
@@ -28,10 +27,10 @@ namespace SRX.ViTool
                 viberDirectory = Console.ReadLine();
             }
             //Continue to directory organization with the Viber directory specified.
-            Console.WriteLine($"Using Viber directory \"{viberDirectory}\".");
-            Organizer organizer = new Organizer(viberDirectory, orgArgs);
+            Console.WriteLine($"Using Viber directory \"{viberDirectory}\".\r\n");
             try
             {
+                IOrganizer organizer = Factory.GetOrganizer(viberDirectory, orgArgs);
                 organizer.Organize(out int? filesCount);
                 if (filesCount.HasValue && filesCount.Value == 0)
                     Console.WriteLine("No files for organizing.");
@@ -46,7 +45,24 @@ namespace SRX.ViTool
             {
                 Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.WriteLine("\n\n-- -- -- -- --");
+                Console.WriteLine($"Press any key to close ViTool!");
                 Console.ReadKey();
+            }
+        }
+
+        private static string GetViberDirectory(IOrganizerArgs orgArgs)
+        {
+            if (!string.IsNullOrEmpty(orgArgs.ViberDirectory))
+            {
+                return orgArgs.ViberDirectory;
+            }
+            else if (orgArgs.UseCurrentDir)
+            {
+                return AppDomain.CurrentDomain.BaseDirectory;
+            }
+            else
+            {
+                return DefaultViberDirectory;
             }
         }
     }

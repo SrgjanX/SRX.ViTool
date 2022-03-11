@@ -1,10 +1,11 @@
 ﻿//srgjanx
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using SRX.ViTool.Utils;
 
-namespace SRX.ViTool
+namespace SRX.ViTool    
 {
     internal class Program
     {
@@ -12,39 +13,42 @@ namespace SRX.ViTool
 
         private static void Main(string[] args)
         {
-            Console.WriteLine("ViTool started!");
-            Console.Write("-- -- -- -- --\n");
-            //Get Viber directory from arguments if specified, else uses default Viber directory.
+            PrintStatusMessage("ViTool started!");
+            PrintStatusMessage("-- -- -- -- --\n");
+            //Get organizer args from console args:
             IOrganizerArgs orgArgs = Factory.GetOrganizerArgs(args);
+            //Get Viber directory from arguments if specified, otherwise from default directory:
             string viberDirectory = GetViberDirectory(orgArgs);
-            //If the specified Viber directory does not exists, ask the user to enter it until he gives valid directory.
-            while (!Directory.Exists(viberDirectory))
-            {
-                if (string.IsNullOrEmpty(viberDirectory))
-                    Console.WriteLine("No viber directory found, please enter it yourself: ");
-                else
-                    Console.WriteLine($"The directory \"{viberDirectory}\" was not found, please enter it yourself: ");
-                viberDirectory = Console.ReadLine();
-            }
             //Continue to directory organization with the Viber directory specified.
-            Console.WriteLine($"Using Viber directory \"{viberDirectory}\".\r\n");
             try
             {
-                IOrganizer organizer = Factory.GetOrganizer(viberDirectory, orgArgs);
-                organizer.Organize(out int? filesCount);
-                if (filesCount.HasValue && filesCount.Value == 0)
-                    Console.WriteLine("No files for organizing.");
+                if (Directory.Exists(viberDirectory))
+                {
+                    PrintStatusMessage($"Using Viber directory \"{viberDirectory}\".");
+                    IOrganizer organizer = Factory.GetOrganizer(viberDirectory, orgArgs);
+                    Stopwatch sw = new Stopwatch();
+                    sw.Start();
+                    organizer.Organize(out int? filesCount);
+                    sw.Stop();
+                    if (filesCount.HasValue && filesCount.Value == 0)
+                        PrintStatusMessage("No files for organizing.");
+                    else
+                        PrintStatusMessage($"\nSuccessfully organized {filesCount} files in {sw.ElapsedMilliseconds}ms!", true);
+                }
                 else
-                    Console.WriteLine($"\n\nSuccessfully organized {filesCount} files!");
+                {
+                    PrintStatusMessage($"Viber directory \"{viberDirectory}\" does not exists.", false);
+                }
+                
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred!\r\n{ex.Message}");
+                PrintStatusMessage($"Error occurred!\r\n{ex.Message}", false);
             }
             finally
             {
                 Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine("\n\n-- -- -- -- --");
+                Console.WriteLine("\n-- -- -- -- --");
                 Console.WriteLine($"Press any key to close ViTool!");
                 Console.ReadKey();
             }
@@ -65,5 +69,39 @@ namespace SRX.ViTool
                 return DefaultViberDirectory;
             }
         }
+
+        private static void PrintStatusMessage(string message, bool? status = null)
+        {
+            switch (status)
+            {
+                case true:
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    break;
+                case false:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    break;
+                default:
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
+            }
+            Console.WriteLine(message);
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        ///// <summary>
+        ///// Forces the user to enter directories until vlaid one is entered.
+        ///// </summary>
+        //private static string GetViberDirectoryFromUser(string viberDirectory)
+        //{
+        //    while (!Directory.Exists(viberDirectory ?? ""))
+        //    {
+        //        if (string.IsNullOrEmpty(viberDirectory))
+        //            PrintStatusMessage("No viber directory found, please enter it yourself: ");
+        //        else
+        //            PrintStatusMessage($"The directory \"{viberDirectory}\" was not found, please enter it yourself: ");
+        //        viberDirectory = Console.ReadLine();
+        //    }
+        //    return viberDirectory;
+        //}
     }
 }

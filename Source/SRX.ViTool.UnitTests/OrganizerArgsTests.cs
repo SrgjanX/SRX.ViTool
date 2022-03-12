@@ -50,7 +50,7 @@ namespace SRX.ViTool.UnitTests
         }
 
         [Test]
-        public void Test_Default_Values_With_DatePrefix_True()
+        public void Test_DatePrefix_True()
         {
             string[] args = new string[]
             {
@@ -61,7 +61,7 @@ namespace SRX.ViTool.UnitTests
         }
 
         [Test]
-        public void Test_Default_Values_With_ViberDir_Empty1()
+        public void Test_ViberDir_Empty()
         {
             string[] args = new string[]
             {
@@ -71,8 +71,52 @@ namespace SRX.ViTool.UnitTests
             Assert.IsNull(oArgs.ViberDirectory);
         }
 
+        [Test]
+        public void Test_ViberDir_Empty2()
+        {
+            string[] args = new string[]
+            {
+                "-viberdir "
+            };
+            OrganizerArgs oArgs = new OrganizerArgs(args);
+            Assert.IsNull(oArgs.ViberDirectory);
+        }
+
+        [Test]
+        public void Test_ViberDir_Empty3()
+        {
+            string[] args = new string[]
+            {
+                "-viberdir         "
+            };
+            OrganizerArgs oArgs = new OrganizerArgs(args);
+            Assert.IsNull(oArgs.ViberDirectory);
+        }
+
+        [Test]
+        public void Test_ViberDir_Lowercase()
+        {
+            string[] args = new string[]
+            {
+                $"-viberdir {someFolder}"
+            };
+            OrganizerArgs oArgs = new OrganizerArgs(args);
+            Assert.IsTrue(oArgs.ViberDirectory == someFolder);
+        }
+
+        [Test]
+        public void Test_ViberDir_Uppercase()
+        {
+            string[] args = new string[]
+            {
+                $"-viberDir {someFolder}"
+            };
+            OrganizerArgs oArgs = new OrganizerArgs(args);
+            Assert.IsTrue(oArgs.ViberDirectory == someFolder);
+        }
+
         //[Test]
-        //public void Test_Default_Values_With_Multiple_Args_True1()
+        //public void UnnamedTest()
         //{
         //    string[] args = new string[]
         //    {
@@ -84,19 +128,7 @@ namespace SRX.ViTool.UnitTests
         //}
 
         [Test]
-        public void Test_Default_Values_With_Multiple_Args_InOneString_True()
-        {
-            string[] args = new string[]
-            {
-                "-dateprefix", "-useCurrentDir"
-            };
-            OrganizerArgs oArgs = new OrganizerArgs(args);
-            Assert.IsTrue(oArgs.DatePrefix);
-            Assert.IsTrue(oArgs.UseCurrentDir);
-        }
-
-        [Test]
-        public void Test_Default_Values_With_Multiple_Args_InStringArray_True()
+        public void Test_DatePrefixAndUserCurrentDir_Args_True()
         {
             string[] args = new string[]
             {
@@ -108,51 +140,19 @@ namespace SRX.ViTool.UnitTests
         }
 
         [Test]
-        public void Test_Default_Values_With_ViberDir_Empty2()
+        public void Test_DatePrefixAndUserCurrentDir_UppercaseArgs_True()
         {
             string[] args = new string[]
             {
-                "-viberdir "
+                "-dateprefix", "-useCurrentDir"
             };
             OrganizerArgs oArgs = new OrganizerArgs(args);
-            Assert.IsNull(oArgs.ViberDirectory);
+            Assert.IsTrue(oArgs.DatePrefix);
+            Assert.IsTrue(oArgs.UseCurrentDir);
         }
 
         [Test]
-        public void Test_Default_Values_With_ViberDir_Empty3()
-        {
-            string[] args = new string[]
-            {
-                "-viberdir         "
-            };
-            OrganizerArgs oArgs = new OrganizerArgs(args);
-            Assert.IsNull(oArgs.ViberDirectory);
-        }
-
-        [Test]
-        public void Test_Default_Values_With_ViberDir_True_Lowercase()
-        {
-            string[] args = new string[]
-            {
-                $"-viberdir {someFolder}"
-            };
-            OrganizerArgs oArgs = new OrganizerArgs(args);
-            Assert.IsTrue(oArgs.ViberDirectory == someFolder);
-        }
-
-        [Test]
-        public void Test_Default_Values_With_ViberDir_True_Uppercase()
-        {
-            string[] args = new string[]
-            {
-                $"-viberDir {someFolder}"
-            };
-            OrganizerArgs oArgs = new OrganizerArgs(args);
-            Assert.IsTrue(oArgs.ViberDirectory == someFolder);
-        }
-
-        [Test]
-        public void Test_Default_Values_With_UseCurrentDir_True()
+        public void Test_UseCurrentDir()
         {
             string[] args = new string[]
             {
@@ -163,7 +163,7 @@ namespace SRX.ViTool.UnitTests
         }
 
         [Test]
-        public void Test_Default_Values_With_UseCurrentDir_WithPlusValues_True()
+        public void Test_UseCurrentDir_WithPlusValues()
         {
             string[] args = new string[]
             {

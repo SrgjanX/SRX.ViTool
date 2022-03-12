@@ -5,7 +5,7 @@ using System.IO;
 
 namespace SRX.ViTool.Utils
 {
-    internal class Organizer : IOrganizer
+    public class Organizer : IOrganizer
     {
         private string dir;
         private IOrganizerArgs args;
@@ -18,34 +18,44 @@ namespace SRX.ViTool.Utils
 
         public void Organize(out int? filesProcessedCount)
         {
-            if (Directory.Exists(dir))
+            CheckIfDirectoryExists();
+
+            string[] files = Directory.GetFiles(dir);
+
+            ProcessFiles(files);
+
+            filesProcessedCount = files.Length;
+        }
+
+        private void ProcessFiles(string[] files)
+        {
+            if (files != null && files.Length > 0)
             {
-                string[] files = Directory.GetFiles(dir);
-                if (files != null && files.Length > 0)
+                int length = files.Length;
+                Console.WriteLine($"{length} files found!");
+                for (int i = 0; i < length; i++)
                 {
-                    int length = files.Length;
-                    Console.WriteLine($"{length} files found!");
-                    for (int i = 0; i < length; i++)
-                    {
-                        DateTime modDate = File.GetLastWriteTime(files[i]);
-                        string folder = dir + "\\" + PrepareFolderName(modDate);
-                        if (!Directory.Exists(folder))
-                            Directory.CreateDirectory(folder);
-                        FileInfo fi = new FileInfo(files[i]);
-                        string newFile =
-                            fi.Directory
-                            + "\\"
-                            + PrepareFolderName(modDate)
-                            + "\\"
-                            + GetFileNamePrefix(modDate)
-                            + fi.Name;
-                        File.Move(files[i], newFile);
-                        Console.WriteLine($"[{i+1}/{length}]   {fi.Name}");
-                    }
+                    DateTime modDate = File.GetLastWriteTime(files[i]);
+                    string folder = dir + "\\" + PrepareFolderName(modDate);
+                    if (!Directory.Exists(folder))
+                        Directory.CreateDirectory(folder);
+                    FileInfo fi = new FileInfo(files[i]);
+                    string newFile =
+                        fi.Directory
+                        + "\\"
+                        + PrepareFolderName(modDate)
+                        + "\\"
+                        + GetFileNamePrefix(modDate)
+                        + fi.Name;
+                    File.Move(files[i], newFile);
+                    Console.WriteLine($"[{i + 1}/{length}]   {fi.Name}");
                 }
-                filesProcessedCount = files.Length;
             }
-            else
+        }
+
+        private void CheckIfDirectoryExists()
+        {
+            if (!Directory.Exists(dir))
             {
                 throw new DirectoryNotFoundException($"Directory \"{dir}\" not found.");
             }

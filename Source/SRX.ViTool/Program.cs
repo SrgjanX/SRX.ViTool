@@ -87,21 +87,5 @@ namespace SRX.ViTool
             Console.WriteLine(message);
             Console.ForegroundColor = ConsoleColor.White;
         }
-
-        ///// <summary>
-        ///// Forces the user to enter directories until vlaid one is entered.
-        ///// </summary>
-        //private static string GetViberDirectoryFromUser(string viberDirectory)
-        //{
-        //    while (!Directory.Exists(viberDirectory ?? ""))
-        //    {
-        //        if (string.IsNullOrEmpty(viberDirectory))
-        //            PrintStatusMessage("No viber directory found, please enter it yourself: ");
-        //        else
-        //            PrintStatusMessage($"The directory \"{viberDirectory}\" was not found, please enter it yourself: ");
-        //        viberDirectory = Console.ReadLine();
-        //    }
-        //    return viberDirectory;
-        //}
     }
 }

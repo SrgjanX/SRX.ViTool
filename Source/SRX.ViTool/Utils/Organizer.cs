@@ -27,7 +27,6 @@ namespace SRX.ViTool.Utils
                     Console.WriteLine($"{length} files found!");
                     for (int i = 0; i < length; i++)
                     {
-                        //DateTime createdDate = File.GetCreationTime(file);
                         DateTime modDate = File.GetLastWriteTime(files[i]);
                         string folder = dir + "\\" + PrepareFolderName(modDate);
                         if (!Directory.Exists(folder))

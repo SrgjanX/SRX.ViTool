@@ -22,16 +22,16 @@ namespace SRX.ViTool.Utils
 
             string[] files = Directory.GetFiles(dir);
 
-            ProcessFiles(files);
-
-            filesProcessedCount = files.Length;
+            ProcessFiles(files, out filesProcessedCount);
         }
 
-        private void ProcessFiles(string[] files)
+        private void ProcessFiles(string[] files, out int? filesProcessedCount)
         {
+            filesProcessedCount = null;
             if (files != null && files.Length > 0)
             {
                 int length = files.Length;
+                int skipped = 0;
                 Console.WriteLine($"{length} files found!");
                 for (int i = 0; i < length; i++)
                 {
@@ -47,9 +47,19 @@ namespace SRX.ViTool.Utils
                         + "\\"
                         + GetFileNamePrefix(modDate)
                         + fi.Name;
-                    File.Move(files[i], newFile);
-                    Console.WriteLine($"[{i + 1}/{length}]   {fi.Name}");
+                    try
+                    {
+                        File.Move(files[i], newFile);
+                        Console.WriteLine($"[{i + 1}/{length}]   {fi.Name}");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Write($"[{i + 1}/{length}]   {fi.Name}");
+                        ConsoleEx.WriteLineStatus($" - skipped.\r\n{ex.Message}", false);
+                        skipped++;
+                    }
                 }
+                filesProcessedCount = length - skipped;
             }
         }
 

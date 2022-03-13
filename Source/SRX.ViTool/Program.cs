@@ -1,11 +1,11 @@
 ﻿//srgjanx
 
+using SRX.ViTool.Utils;
 using System;
 using System.Diagnostics;
 using System.IO;
-using SRX.ViTool.Utils;
 
-namespace SRX.ViTool    
+namespace SRX.ViTool
 {
     internal class Program
     {
@@ -13,8 +13,8 @@ namespace SRX.ViTool
 
         private static void Main(string[] args)
         {
-            PrintStatusMessage("ViTool started!");
-            PrintStatusMessage("-- -- -- -- --\n");
+            ConsoleEx.WriteLineStatus("ViTool started!");
+            ConsoleEx.WriteLineStatus("-- -- -- -- --\n");
             //Get organizer args from console args:
             IOrganizerArgs orgArgs = Factory.GetOrganizerArgs(args);
             //Get Viber directory from arguments if specified, otherwise from default directory:
@@ -24,26 +24,26 @@ namespace SRX.ViTool
             {
                 if (Directory.Exists(viberDirectory))
                 {
-                    PrintStatusMessage($"Using Viber directory \"{viberDirectory}\".");
+                    ConsoleEx.WriteLineStatus($"Using Viber directory \"{viberDirectory}\".");
                     IOrganizer organizer = Factory.GetOrganizer(viberDirectory, orgArgs);
                     Stopwatch sw = new Stopwatch();
                     sw.Start();
                     organizer.Organize(out int? filesCount);
                     sw.Stop();
                     if (filesCount.HasValue && filesCount.Value == 0)
-                        PrintStatusMessage("No files for organizing.");
+                        ConsoleEx.WriteLineStatus("No files organized.");
                     else
-                        PrintStatusMessage($"\nSuccessfully organized {filesCount} files in {sw.ElapsedMilliseconds}ms!", true);
+                        ConsoleEx.WriteLineStatus($"\nSuccessfully organized {filesCount} files in {sw.ElapsedMilliseconds}ms!", true);
                 }
                 else
                 {
-                    PrintStatusMessage($"Viber directory \"{viberDirectory}\" does not exists.", false);
+                    ConsoleEx.WriteLineStatus($"Viber directory \"{viberDirectory}\" does not exists.", false);
                 }
                 
             }
             catch (Exception ex)
             {
-                PrintStatusMessage($"Error occurred!\r\n{ex.Message}", false);
+                ConsoleEx.WriteLineStatus($"Error occurred!\r\n{ex.Message}", false);
             }
             finally
             {
@@ -68,24 +68,6 @@ namespace SRX.ViTool
             {
                 return DefaultViberDirectory;
             }
-        }
-
-        private static void PrintStatusMessage(string message, bool? status = null)
-        {
-            switch (status)
-            {
-                case true:
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    break;
-                case false:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    break;
-                default:
-                    Console.ForegroundColor = ConsoleColor.White;
-                    break;
-            }
-            Console.WriteLine(message);
-            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 }

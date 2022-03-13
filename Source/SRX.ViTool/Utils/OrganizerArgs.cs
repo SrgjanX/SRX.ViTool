@@ -12,7 +12,6 @@ namespace SRX.ViTool.Utils
         {
             if (args != null && args.Length > 0)
             {
-                //args = args.Select(x => x.ToLower()).ToArray();
                 foreach (string arg in args)
                 {
                     string argLower = arg.ToLower();

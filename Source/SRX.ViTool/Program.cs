@@ -30,7 +30,7 @@ namespace SRX.ViTool
                     sw.Start();
                     organizer.Organize(out int? filesCount);
                     sw.Stop();
-                    if (filesCount.HasValue && filesCount.Value == 0)
+                    if ((filesCount ?? 0) == 0)
                         ConsoleEx.WriteLineStatus("No files organized.");
                     else
                         ConsoleEx.WriteLineStatus($"\nSuccessfully organized {filesCount} files in {sw.ElapsedMilliseconds}ms!", true);

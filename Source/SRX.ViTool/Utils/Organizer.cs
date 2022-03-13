@@ -35,20 +35,18 @@ namespace SRX.ViTool.Utils
                 Console.WriteLine($"{length} files found!");
                 for (int i = 0; i < length; i++)
                 {
-                    DateTime modDate = File.GetLastWriteTime(files[i]);
-                    string folder = dir + "\\" + PrepareFolderName(modDate);
-                    if (!Directory.Exists(folder))
-                        Directory.CreateDirectory(folder);
                     FileInfo fi = new FileInfo(files[i]);
-                    string newFile =
-                        fi.Directory
-                        + "\\"
-                        + PrepareFolderName(modDate)
-                        + "\\"
-                        + GetFileNamePrefix(modDate)
-                        + fi.Name;
                     try
                     {
+                        DateTime dateModified = File.GetLastWriteTime(files[i]);
+                        string dateDir = dir + "\\" + PrepareFolderName(dateModified);
+                        if (!Directory.Exists(dateDir))
+                            Directory.CreateDirectory(dateDir);
+                        string newFile =
+                            dateDir
+                            + "\\"
+                            + GetFileNamePrefix(dateModified)
+                            + fi.Name;
                         File.Move(files[i], newFile);
                         Console.WriteLine($"[{i + 1}/{length}]   {fi.Name}");
                     }

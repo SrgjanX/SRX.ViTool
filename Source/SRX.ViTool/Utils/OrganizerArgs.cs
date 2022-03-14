@@ -9,7 +9,6 @@ namespace SRX.ViTool.Utils
         public bool UseCurrentDir { get; set; }
         public bool DeletePTTDirectory { get; private set; }
 
-
         public OrganizerArgs(string[] args)
         {
             if (args != null && args.Length > 0)

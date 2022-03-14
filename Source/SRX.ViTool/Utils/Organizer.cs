@@ -24,7 +24,10 @@ namespace SRX.ViTool.Utils
             
             ProcessFiles(files, out filesProcessedCount);
             
-            DeletePTTIfEmpty();
+            if (args.DeletePTTDirectory)
+            {
+                DeletePTTIfEmpty();
+            }
         }
 
         private void ProcessFiles(string[] files, out int? filesProcessedCount)
@@ -88,14 +91,23 @@ namespace SRX.ViTool.Utils
 
         private void DeletePTTIfEmpty()
         {
-            string pttDir = dir + "\\PTT";
-            if (Directory.Exists(pttDir))
+            try
             {
-                string[] folder = Directory.GetFiles(pttDir);
-                if(folder.Length == 0)
+                string pttDir = dir + "\\PTT";
+                if (Directory.Exists(pttDir))
                 {
-                    Directory.Delete(pttDir, true);
+                    string[] files = Directory.GetFiles(pttDir);
+                    if (files.Length == 0)
+                    {
+                        Directory.Delete(pttDir, true);
+                        ConsoleEx.WriteLineStatus("PTT folder deleted!", true);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                ConsoleEx.WriteLineStatus("Deleting PTT directory failed!", false);
+                ConsoleEx.WriteLineStatus(ex.Message, false);
             }
         }
     }

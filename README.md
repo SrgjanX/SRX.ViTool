@@ -4,7 +4,9 @@
 <h1 align="center">
   SRX.ViTool
 </h1>
-Viber tool for PC.
+<p align="center">
+  Viber tool for PC.
+</p>
 
 ## Introduction
 Simple .NET 5 C# console that organizes the annoying Viber downloads folder where all files are stored in one folder.
@@ -18,6 +20,7 @@ Simple .NET 5 C# console that organizes the annoying Viber downloads folder wher
 - **-dateprefix** Sets date prefix to the file name (ex: test.jpg will be renamed to 21_01_2022_test.jpg)
 - **-viberdir C:\ViberDownloads** It will use this directory.
 - **-useCurrentDir** It will use the directory where the .exe is located.
+- **-deletePTT** It will delete the auto generated PTT directory if its empty.
 
 ## How to contribute
 If you want to contribute to this project, you are welcome!

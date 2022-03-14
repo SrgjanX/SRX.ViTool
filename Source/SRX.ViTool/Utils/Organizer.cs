@@ -21,37 +21,45 @@ namespace SRX.ViTool.Utils
             CheckIfDirectoryExists();
 
             string[] files = Directory.GetFiles(dir);
-
-            ProcessFiles(files);
-
-            filesProcessedCount = files.Length;
-
+            
+            ProcessFiles(files, out filesProcessedCount);
+            
             DeletePTTIfEmpty();
         }
 
-        private void ProcessFiles(string[] files)
+        private void ProcessFiles(string[] files, out int? filesProcessedCount)
         {
+            filesProcessedCount = null;
             if (files != null && files.Length > 0)
             {
                 int length = files.Length;
+                int skipped = 0;
                 Console.WriteLine($"{length} files found!");
                 for (int i = 0; i < length; i++)
                 {
-                    DateTime modDate = File.GetLastWriteTime(files[i]);
-                    string folder = dir + "\\" + PrepareFolderName(modDate);
-                    if (!Directory.Exists(folder))
-                        Directory.CreateDirectory(folder);
                     FileInfo fi = new FileInfo(files[i]);
-                    string newFile =
-                        fi.Directory
-                        + "\\"
-                        + PrepareFolderName(modDate)
-                        + "\\"
-                        + GetFileNamePrefix(modDate)
-                        + fi.Name;
-                    File.Move(files[i], newFile);
-                    Console.WriteLine($"[{i + 1}/{length}]   {fi.Name}");
+                    try
+                    {
+                        DateTime dateModified = File.GetLastWriteTime(files[i]);
+                        string dateDir = dir + "\\" + PrepareFolderName(dateModified);
+                        if (!Directory.Exists(dateDir))
+                            Directory.CreateDirectory(dateDir);
+                        string newFile =
+                            dateDir
+                            + "\\"
+                            + GetFileNamePrefix(dateModified)
+                            + fi.Name;
+                        File.Move(files[i], newFile);
+                        Console.WriteLine($"[{i + 1}/{length}]   {fi.Name}");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Write($"[{i + 1}/{length}]   {fi.Name}");
+                        ConsoleEx.WriteLineStatus($" - skipped.\r\n{ex.Message}", false);
+                        skipped++;
+                    }
                 }
+                filesProcessedCount = length - skipped;
             }
         }
 

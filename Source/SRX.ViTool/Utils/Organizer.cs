@@ -21,8 +21,10 @@ namespace SRX.ViTool.Utils
             CheckIfDirectoryExists();
 
             string[] files = Directory.GetFiles(dir);
-
+            
             ProcessFiles(files, out filesProcessedCount);
+            
+            DeletePTTIfEmpty();
         }
 
         private void ProcessFiles(string[] files, out int? filesProcessedCount)
@@ -82,6 +84,19 @@ namespace SRX.ViTool.Utils
             return args.DatePrefix
                 ? dt.ToString("dd_MM_yyyy") + "_"
                 : "";
+        }
+
+        private void DeletePTTIfEmpty()
+        {
+            string pttDir = dir + "\\PTT";
+            if (Directory.Exists(pttDir))
+            {
+                string[] folder = Directory.GetFiles(pttDir);
+                if(folder.Length == 0)
+                {
+                    Directory.Delete(pttDir, true);
+                }
+            }
         }
     }
 }

@@ -7,6 +7,8 @@ namespace SRX.ViTool.Utils
         public bool DatePrefix { get; private set; }
         public string ViberDirectory { get; private set; }
         public bool UseCurrentDir { get; set; }
+        public bool DeletePTTDirectory { get; private set; }
+
 
         public OrganizerArgs(string[] args)
         {
@@ -24,6 +26,8 @@ namespace SRX.ViTool.Utils
                     }
                     if (argLower.StartsWith("-usecurrentdir"))
                         UseCurrentDir = true;
+                    if(argLower.StartsWith("-deleteptt"))
+                        DeletePTTDirectory = true;
                 }
             }
         }

@@ -7,6 +7,9 @@
     <PackageProjectUrl>http://srgjanx.net</PackageProjectUrl>
     <RepositoryUrl>https://github.com/SrgjanX/SRX.ViTool</RepositoryUrl>
     <ApplicationIcon>icon.ico</ApplicationIcon>
+    <Product></Product>
+    <Description>Viber tool for PC.</Description>
+    <AssemblyName>ViTool</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="icon.ico" />

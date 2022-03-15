@@ -13,11 +13,6 @@ namespace SRX.ViTool
 
         private static void Main(string[] args)
         {
-            args = new string[]
-            {
-                "-deletePTT"
-            };
-
             ConsoleEx.WriteLineStatus("ViTool started!");
             ConsoleEx.WriteLineStatus("-- -- -- -- --\n");
             //Get organizer args from console args:

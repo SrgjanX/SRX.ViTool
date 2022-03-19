@@ -9,7 +9,7 @@ namespace SRX.ViTool.Utils
     /// </summary>
     internal class ConsoleEx
     {
-        public static void WriteLineStatus(string message, bool? status = null)
+        public static void WriteLine(string message, bool? status = null)
         {
             Console.ForegroundColor = status switch
             {

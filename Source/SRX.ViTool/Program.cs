@@ -13,8 +13,8 @@ namespace SRX.ViTool
 
         private static void Main(string[] args)
         {
-            ConsoleEx.WriteLineStatus("ViTool started!");
-            ConsoleEx.WriteLineStatus("-- -- -- -- --\n");
+            ConsoleEx.WriteLine("ViTool started!");
+            ConsoleEx.WriteLine("-- -- -- -- --\n");
             //Get organizer args from console args:
             IOrganizerArgs orgArgs = Factory.GetOrganizerArgs(args);
             //Get Viber directory from arguments if specified, otherwise from default directory:
@@ -24,26 +24,26 @@ namespace SRX.ViTool
             {
                 if (Directory.Exists(viberDirectory))
                 {
-                    ConsoleEx.WriteLineStatus($"Using Viber directory \"{viberDirectory}\".");
+                    ConsoleEx.WriteLine($"Using Viber directory \"{viberDirectory}\".");
                     IOrganizer organizer = Factory.GetOrganizer(viberDirectory, orgArgs);
                     Stopwatch sw = new Stopwatch();
                     sw.Start();
                     organizer.Organize(out int? filesCount);
                     sw.Stop();
                     if ((filesCount ?? 0) == 0)
-                        ConsoleEx.WriteLineStatus("No files organized.");
+                        ConsoleEx.WriteLine("No files organized.");
                     else
-                        ConsoleEx.WriteLineStatus($"\nSuccessfully organized {filesCount} files in {sw.ElapsedMilliseconds}ms!", true);
+                        ConsoleEx.WriteLine($"\nSuccessfully organized {filesCount} files in {sw.ElapsedMilliseconds}ms!", true);
                 }
                 else
                 {
-                    ConsoleEx.WriteLineStatus($"Viber directory \"{viberDirectory}\" does not exists.", false);
+                    ConsoleEx.WriteLine($"Viber directory \"{viberDirectory}\" does not exists.", false);
                 }
                 
             }
             catch (Exception ex)
             {
-                ConsoleEx.WriteLineStatus($"Error occurred!\r\n{ex.Message}", false);
+                ConsoleEx.WriteLine($"Error occurred!\r\n{ex.Message}", false);
             }
             finally
             {

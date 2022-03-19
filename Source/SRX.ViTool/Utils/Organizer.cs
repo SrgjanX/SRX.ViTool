@@ -2,6 +2,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 
 namespace SRX.ViTool.Utils
 {
@@ -23,16 +24,15 @@ namespace SRX.ViTool.Utils
             string[] files = Directory.GetFiles(dir);
             
             ProcessFiles(files, out filesProcessedCount);
-            
-            /*if (args.DeletePTTDirectory)
-            {
-                DeletePTTIfEmpty();
-            }
-            */
 
-            DeleteDirectoryIfEmpty("PTT");
-            DeleteDirectoryIfEmpty("Temporary");
-            
+            if (args.DeletePTTDirectory)
+            {
+                DeleteDirectoryIfEmpty($"{dir}\\PTT");
+            }
+            if (args.DeleteTempDirectory)
+            {
+                DeleteDirectoryIfEmpty($"{dir}\\Temporary");
+            }
         }
 
         private void ProcessFiles(string[] files, out int? filesProcessedCount)
@@ -63,7 +63,7 @@ namespace SRX.ViTool.Utils
                     catch (Exception ex)
                     {
                         Console.Write($"[{i + 1}/{length}]   {fi.Name}");
-                        ConsoleEx.WriteLineStatus($" - skipped.\r\n{ex.Message}", false);
+                        ConsoleEx.WriteLine($" - skipped.\r\n{ex.Message}", false);
                         skipped++;
                     }
                 }
@@ -94,49 +94,25 @@ namespace SRX.ViTool.Utils
                 : "";
         }
 
-        /*private void DeletePTTIfEmpty()
-        {
-            try
-            {
-                string pttDir = dir + "\\PTT";
-                if (Directory.Exists(pttDir))
-                {
-                    string[] files = Directory.GetFiles(pttDir);
-                    if (files.Length == 0)
-                    {
-                        Directory.Delete(pttDir, true);
-                        ConsoleEx.WriteLineStatus("PTT folder deleted!", true);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ConsoleEx.WriteLineStatus("Deleting PTT directory failed!", false);
-                ConsoleEx.WriteLineStatus(ex.Message, false);
-            }
-        } */
-
         private void DeleteDirectoryIfEmpty(string directory)
         {
-
-
-            directory = dir + "\\" + directory;
-            
             if (Directory.Exists(directory))
             {
-                string[] files = Directory.GetFiles(directory);
-
-                    if (files.Length == 0)
+                try
                 {
-                    Directory.Delete(directory, true); 
+                    string[] files = Directory.GetFiles(directory);
+                    if (files.Length == 0)
+                    {
+                        Directory.Delete(directory, true);
+                        string lastDir = directory.Split('\\').LastOrDefault();
+                        ConsoleEx.WriteLine($"Directory \"{lastDir}\" successfully deleted.", true);
+                    }
                 }
-
+                catch (Exception ex)
+                {
+                    ConsoleEx.WriteLine($"DeleteDirectoryIfEmpty:\r\n{ex.Message}", false);
+                }
             }
-           
         }
-
-
-
-        
     }
 }

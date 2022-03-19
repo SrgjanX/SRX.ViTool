@@ -8,5 +8,6 @@ namespace SRX.ViTool.Utils
         bool UseCurrentDir { get; set; }
         string ViberDirectory { get; }
         bool DeletePTTDirectory { get; }
+        bool DeleteTempDirectory { get; }
     }
 }

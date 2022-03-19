@@ -172,5 +172,27 @@ namespace SRX.ViTool.UnitTests
             OrganizerArgs oArgs = new OrganizerArgs(args);
             Assert.IsTrue(oArgs.UseCurrentDir);
         }
+
+        [Test]
+        public void Test_Argument_DeletePTTDirectory()
+        {
+            string[] args = new string[]
+            {
+                $"-deletePTT"
+            };
+            OrganizerArgs oArgs = new OrganizerArgs(args);
+            Assert.IsTrue(oArgs.DeletePTTDirectory);
+        }
+
+        [Test]
+        public void Test_Argument_DeleteTempDirectory()
+        {
+            string[] args = new string[]
+            {
+                $"-deleteTemp"
+            };
+            OrganizerArgs oArgs = new OrganizerArgs(args);
+            Assert.IsTrue(oArgs.DeleteTempDirectory);
+        }
     }
 }

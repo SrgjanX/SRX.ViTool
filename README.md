@@ -14,6 +14,8 @@ Simple .NET 5 C# console that organizes the annoying Viber downloads folder wher
 ## Features
 - Sets date prefix to the files names.
 - Organizes all files into month folders "MM_yyyy".
+- Deletes auto generated folders and leaves the root folder clean.
+- If it detects that the file was already organized, it will be moved to "Duplicates" folder.
 
 ## Console Arguments
 
@@ -21,6 +23,7 @@ Simple .NET 5 C# console that organizes the annoying Viber downloads folder wher
 - **-viberdir C:\ViberDownloads** It will use this directory.
 - **-useCurrentDir** It will use the directory where the .exe is located.
 - **-deletePTT** It will delete the auto generated PTT directory if its empty.
+- **-deleteTemp** It will delete the auto generated Temporary directory if its empty.
 
 ## How to contribute
 If you want to contribute to this project, you are welcome!

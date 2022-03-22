@@ -42,7 +42,7 @@ namespace SRX.ViTool.Utils
             {
                 int length = files.Length;
                 int skipped = 0;
-                Console.WriteLine($"{length} files found!");
+                Console.WriteLine($"{length} files found!{Environment.NewLine}");
                 for (int i = 0; i < length; i++)
                 {
                     FileInfo fi = new FileInfo(files[i]);
@@ -57,7 +57,7 @@ namespace SRX.ViTool.Utils
                             + "\\"
                             + GetFileNamePrefix(dateModified)
                             + fi.Name;
-                        File.Move(files[i], newFile);
+                        MoveFile(files[i], newFile, false);
                         Console.WriteLine($"[{i + 1}/{length}]   {fi.Name}");
                     }
                     catch (Exception ex)
@@ -69,6 +69,25 @@ namespace SRX.ViTool.Utils
                 }
                 filesProcessedCount = length - skipped;
             }
+        }
+
+
+        private void MoveFile(string currentFile, string newFile, bool overWrite)
+        {
+            bool newFileExists = File.Exists(newFile);
+            if (!newFileExists || overWrite)
+                File.Move(currentFile, newFile);
+            else
+                MoveToDuplicates(currentFile);
+        }
+
+        private void MoveToDuplicates(string filePath)
+        {
+            string duplicatesDir = $"{dir}\\Duplicates";
+            if (!Directory.Exists(duplicatesDir))
+                Directory.CreateDirectory(duplicatesDir);
+            FileInfo fileInfo = new FileInfo(filePath);
+            File.Move(filePath, $"{duplicatesDir}\\{fileInfo.Name}");
         }
 
         private void CheckIfDirectoryExists()

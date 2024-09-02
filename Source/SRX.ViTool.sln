@@ -5,7 +5,9 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SRX.ViTool", "SRX.ViTool\SRX.ViTool.csproj", "{E43D22FB-D20F-4F01-9EF3-645EE36AC7A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SRX.ViTool.UnitTests", "SRX.ViTool.UnitTests\SRX.ViTool.UnitTests.csproj", "{2000CB29-2D09-422D-A968-6A5C4B6DCA59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SRX.ViTool.UnitTests", "SRX.ViTool.UnitTests\SRX.ViTool.UnitTests.csproj", "{2000CB29-2D09-422D-A968-6A5C4B6DCA59}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SRX.ViTool.Setup", "SRX.ViTool.Setup\SRX.ViTool.Setup.vdproj", "{E28F5659-F5F5-4623-9237-AF4DA208F158}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,8 @@ Global
 		{2000CB29-2D09-422D-A968-6A5C4B6DCA59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2000CB29-2D09-422D-A968-6A5C4B6DCA59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2000CB29-2D09-422D-A968-6A5C4B6DCA59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E28F5659-F5F5-4623-9237-AF4DA208F158}.Debug|Any CPU.ActiveCfg = Debug
+		{E28F5659-F5F5-4623-9237-AF4DA208F158}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
